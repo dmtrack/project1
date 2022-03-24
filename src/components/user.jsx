@@ -5,8 +5,6 @@ import api from "../api/"
 const Users = () => {
 
 const [users, setUsers] = useState(api.users.fetchAll());
-console.log(users)
-
 
 const renderPhraseClasses = () => {
 let classes = "badge m-2 "
@@ -16,24 +14,16 @@ return classes
 const renderPhrase = () => {
   let phrase = ""
 
-  switch (users.length) {
-    case 0:
-      phrase += "Никто с тобой не тусанёт";
-      break;
-    case 2:
-      phrase += `${users.length} человека тусанёт с тобой сегодня`
-      break;
-    case 3:
-      phrase += `${users.length} человека тусанёт с тобой сегодня`
-      break;
-    case 4:
-      phrase += `${users.length} человека тусанёт с тобой сегодня`
-        break;
+const ammountPeople = String(users.length)
+const lastSymbol = Number(ammountPeople.slice(-1));
 
-    default:
-      phrase += `${users.length} человек тусанёт с тобой сегодня`
+  if (users.length === 0) {
+    phrase += "Никто с тобой не тусанёт";
+  } else if ((lastSymbol === 0 || (lastSymbol >= 5 && lastSymbol <= 9) || lastSymbol === 1) && users.length !== 0) {
+    phrase += `${users.length} человек тусанёт с тобой сегодня`
+  } else if (lastSymbol >= 2 && lastSymbol <= 4) {
+    phrase += `${users.length} человека тусанёт с тобой сегодня`
   }
-
 return phrase
 }
 
