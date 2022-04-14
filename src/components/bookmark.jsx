@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Bookmark = ({ status, ...props }) => {
+const Bookmark = ({ status }) => {
     if (status) {
         return (
             <svg

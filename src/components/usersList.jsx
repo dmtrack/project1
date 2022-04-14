@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { paginate } from "../utils/paginate";
 import Pagination from "./pagination";
 import User from "./user";
 import PropTypes from "prop-types";
+import GroupList from "./groupList";
+import api from "../api";
 
 const UsersList = ({ users, ...props }) => {
     const count = users.length;
     const pageSize = 4;
     const [currentPage, setCurrentPage] = useState(1);
+    const [professions, setProfessions] = useState();
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
+    const handleprofessionSelect = (params) => {
+        console.log(params);
+    };
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
@@ -16,6 +25,14 @@ const UsersList = ({ users, ...props }) => {
 
     return (
         <>
+            {professions && (
+                <GroupList
+                    items={professions}
+                    onItemSelect={handleprofessionSelect}
+                    valueProperty="_id"
+                    contentProperty="name"
+                />
+            )}
             {count > 0 && (
                 <table className="table">
                     <thead>
